@@ -193,6 +193,7 @@
         <testsuite name="issues">
             <file>../tests/testcases/issues/PaymentTermsWithEmptyDescriptionTest.php</file>
             <file>../tests/testcases/issues/PaymentTermsWithEmptyDescriptionCompatTest.php</file>
+            <file>../tests/testcases/issues/BuyerOrderReferenceIssueDateTest.php</file>
         </testsuite>
     </testsuites>
     <coverage cacheDirectory="phpunit-cache/code-coverage" processUncoveredFiles="true">

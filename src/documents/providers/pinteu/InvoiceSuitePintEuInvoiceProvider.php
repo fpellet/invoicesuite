@@ -40,6 +40,7 @@ class InvoiceSuitePintEuInvoiceProvider extends InvoiceSuitePeppol30InvoiceProvi
             'CustomizationId' => 'urn:peppol:pint:billing-1@eu-1',
             'ProfileId' => 'urn:peppol:bis:billing',
             'AllowInvoiceDocumentReferenceDocumentType' => false,
+            'AllowBuyerOrderReferenceIssueDate' => false,
             'AllowedDocumentTypes' => [
                 '71',
                 '80',

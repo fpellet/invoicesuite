@@ -49,6 +49,7 @@ class InvoiceSuiteCtcFrUBLInvoiceProvider extends InvoiceSuitePeppol30InvoicePro
             //     $documentBuilder->setContextParameter($customizationId, 'B1');
             'ProfileId' => '',
             'AllowInvoiceDocumentReferenceDocumentType' => false,
+            'AllowBuyerOrderReferenceIssueDate' => false,
         ];
     }
 

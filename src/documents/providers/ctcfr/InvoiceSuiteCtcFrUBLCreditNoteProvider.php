@@ -49,6 +49,7 @@ class InvoiceSuiteCtcFrUBLCreditNoteProvider extends InvoiceSuitePeppol30CreditN
             //     $documentBuilder->setContextParameter($customizationId, 'B1');
             'ProfileId' => '',
             'AllowInvoiceDocumentReferenceDocumentType' => false,
+            'AllowBuyerOrderReferenceIssueDate' => false,
         ];
     }
 

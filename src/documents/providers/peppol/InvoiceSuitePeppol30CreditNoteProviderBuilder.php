@@ -1208,6 +1208,11 @@ class InvoiceSuitePeppol30CreditNoteProviderBuilder extends InvoiceSuiteAbstract
     /**
      * Set the associated buyer's order
      *
+     * EN 16931 defines no term for the buyer's order date at document level, therefore
+     * cbc:IssueDate is only written when the format provider declares the parameter
+     * "AllowBuyerOrderReferenceIssueDate". The CII builder gates the equivalent BT-X-147
+     * in the same way, on the EXTENDED profile.
+     *
      * @param  null|string            $newReferenceNumber Buyers's order number
      * @param  null|DateTimeInterface $newReferenceDate   Buyer's order date
      * @return static
@@ -1228,11 +1233,15 @@ class InvoiceSuitePeppol30CreditNoteProviderBuilder extends InvoiceSuiteAbstract
             return $this->traceMethodEarlyExit(__METHOD__, 'stringIsNullOrEmpty', 'InvoiceSuiteStringUtils::stringIsNullOrEmpty($newReferenceNumber)');
         }
 
-        $this
+        $orderReference = $this
             ->getUblRootObject()
-            ->getOrderReferenceWithCreate()
-            ->getIDWithCreate()
-            ->setValue($newReferenceNumber);
+            ->getOrderReferenceWithCreate();
+
+        $orderReference->getIDWithCreate()->setValue($newReferenceNumber);
+
+        if ($this->getCurrentDocumentFormatProviderParameterValueBool('AllowBuyerOrderReferenceIssueDate', false)) {
+            $orderReference->setIssueDate($newReferenceDate);
+        }
 
         $this->traceMethodExit(__METHOD__);
 
