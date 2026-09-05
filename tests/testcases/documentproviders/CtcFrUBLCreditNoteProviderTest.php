@@ -59,6 +59,7 @@ final class CtcFrUBLCreditNoteProviderTest extends TestCase
 
         // UBL-CR-026: a CTC-FR document must not carry the BillingReference DocumentTypeCode
         $this->assertFalse($provider->getParameters()['AllowInvoiceDocumentReferenceDocumentType']);
+        $this->assertTrue($provider->getParameters()['AllowBuyerOrderReferenceIssueDate']);
 
         $this->assertArrayNotHasKey('AllowedDocumentTypes', $provider->getParameters());
 

@@ -40,14 +40,15 @@ final class BuyerOrderReferenceIssueDateTest extends TestCase
     }
 
     /**
-     * All format providers which use the UBL builders, with the name of their root element
+     * The format providers which use the UBL builders and leave
+     * AllowBuyerOrderReferenceIssueDate at false, with the name of their root element. The CTC-FR
+     * providers are absent on purpose: they enable the parameter, and are covered by
+     * CtcFrUBLInvoiceProviderBuilderTest and CtcFrUBLCreditNoteProviderBuilderTest.
      *
      * @return Iterator<string,array<string>>
      */
     public function ublProviderProvider(): Iterator
     {
-        yield 'ctcfrublinvoice' => ['ctcfrublinvoice', 'Invoice'];
-        yield 'ctcfrublcreditnote' => ['ctcfrublcreditnote', 'CreditNote'];
         yield 'peppol30invoice' => ['peppol30invoice', 'Invoice'];
         yield 'peppol30creditnote' => ['peppol30creditnote', 'CreditNote'];
         yield 'peppol30selfbillinginvoice' => ['peppol30selfbillinginvoice', 'Invoice'];

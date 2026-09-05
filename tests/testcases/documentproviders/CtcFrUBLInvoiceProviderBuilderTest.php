@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace horstoeko\invoicesuite\tests\testcases\documentproviders;
 
 use DateTime;
+use DateTimeInterface;
 use horstoeko\invoicesuite\documents\providers\ctcfr\InvoiceSuiteCtcFrUBLInvoiceProvider;
 use horstoeko\invoicesuite\documents\providers\ctcfr\InvoiceSuiteCtcFrUBLInvoiceProviderBuilder;
 use horstoeko\invoicesuite\documents\providers\peppol\models\main\Invoice;
@@ -96,6 +97,43 @@ final class CtcFrUBLInvoiceProviderBuilderTest extends TestCase
 
         $this->assertXPathValue('/ns:Invoice/cac:BillingReference/cac:InvoiceDocumentReference/cbc:ID', 'REF-1');
         $this->assertXPathNotExists('/ns:Invoice/cac:BillingReference/cac:InvoiceDocumentReference/cbc:DocumentTypeCode');
+    }
+
+    /**
+     * EXT-FR-FE-197, the date of the purchase order reference BT-13, which AFNOR XP Z12-012
+     * defines for EXTENDED FR only and maps to cac:OrderReference/cbc:IssueDate. It is not to be
+     * confused with BT-2, the invoice issue date, which is the cbc:IssueDate on the document root.
+     * 'AllowBuyerOrderReferenceIssueDate' => true is what enables it.
+     */
+    public function testDocumentBuyerOrderReferenceCarriesTheIssueDate(): void
+    {
+        static::$document->setDocumentDate(new DateTime('2026-01-15'));
+        static::$document->setDocumentBuyerOrderReference('BO-1', new DateTime('2026-01-05'));
+
+        $this->assertXPathValue('/ns:Invoice/cac:OrderReference/cbc:ID', 'BO-1');
+        $this->assertXPathValue('/ns:Invoice/cac:OrderReference/cbc:IssueDate', '2026-01-05');
+
+        // BT-2 is a different element carrying a different date: the cbc:IssueDate sitting on
+        // the document root, not the one inside cac:OrderReference
+        $this->assertXPathValue('/ns:Invoice/cbc:IssueDate', '2026-01-15');
+    }
+
+    public function testDocumentBuyerOrderReferenceIssueDateRoundTrip(): void
+    {
+        $documentBuilder = InvoiceSuiteDocumentBuilder::createByProviderUniqueId(InvoiceSuiteBuiltInProviders::CTC_FR_UBL_INVOICE);
+        $documentBuilder->setDocumentNo('F-2026-000001');
+        $documentBuilder->setDocumentDate(new DateTime('2026-01-15'));
+        $documentBuilder->setDocumentBuyerOrderReference('BO-1', new DateTime('2026-01-05'));
+
+        $documentReader = $documentBuilder->copyToReader();
+
+        $this->assertTrue($documentReader->firstDocumentBuyerOrderReference());
+
+        $documentReader->getDocumentBuyerOrderReference($newReferenceNumber, $newReferenceDate);
+
+        $this->assertSame('BO-1', $newReferenceNumber);
+        $this->assertInstanceOf(DateTimeInterface::class, $newReferenceDate);
+        $this->assertSame('20260105', $newReferenceDate->format('Ymd'));
     }
 
     public function testBuildAndDetectRoundTrip(): void
