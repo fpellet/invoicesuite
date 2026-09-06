@@ -46,10 +46,9 @@ class InvoiceSuiteCtcFrUBLCreditNoteProvider extends InvoiceSuitePeppol30CreditN
             // profile URN, so no default can be supplied here. The empty value makes the builder
             // omit cbc:ProfileID. Callers pass the code themselves, together with the
             // CustomizationId above:
-            //     $documentBuilder->setContextParameter($customizationId, 'B1');
+            //     $documentBuilder->setContextParameterProfileID('B1');
             'ProfileId' => '',
             'AllowInvoiceDocumentReferenceDocumentType' => false,
-
             // EXT-FR-FE-197 "Date de la reference du bon de commande", the date belonging to the
             // purchase order reference BT-13. AFNOR XP Z12-012 gives it cardinality 0..1 for
             // EXTENDED FR only: neither EN 16931 nor CIUS FR define it, which is why every other

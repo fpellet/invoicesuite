@@ -160,4 +160,22 @@ final class CtcFrUBLCreditNoteProviderBuilderTest extends TestCase
 
         $this->assertSame('ctcfrublcreditnote', $documentReader->getCurrentDocumentFormatProvider()->getUniqueId());
     }
+
+    public function testSetProfileIdDirect(): void
+    {
+        static::$document->setContextParameter(self::CUSTOMIZATION_ID, 'S1');
+
+        $this->assertXPathValue('/ns:CreditNote/cbc:CustomizationID', self::CUSTOMIZATION_ID);
+        $this->assertXPathValue('/ns:CreditNote/cbc:ProfileID', 'S1');
+
+        static::$document->setContextParameterProfileID('B1');
+
+        $this->assertXPathValue('/ns:CreditNote/cbc:CustomizationID', self::CUSTOMIZATION_ID);
+        $this->assertXPathValue('/ns:CreditNote/cbc:ProfileID', 'B1');
+
+        static::$document->setContextParameterProfileID('');
+
+        $this->assertXPathValue('/ns:CreditNote/cbc:CustomizationID', self::CUSTOMIZATION_ID);
+        $this->assertXPathNotExists('/ns:CreditNote/cbc:ProfileID');
+    }
 }

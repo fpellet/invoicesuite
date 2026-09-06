@@ -160,4 +160,22 @@ final class CtcFrUBLInvoiceProviderBuilderTest extends TestCase
 
         $this->assertSame('ctcfrublinvoice', $documentReader->getCurrentDocumentFormatProvider()->getUniqueId());
     }
+
+    public function testSetProfileIdDirect(): void
+    {
+        static::$document->setContextParameter(self::CUSTOMIZATION_ID, 'S1');
+
+        $this->assertXPathValue('/ns:Invoice/cbc:CustomizationID', self::CUSTOMIZATION_ID);
+        $this->assertXPathValue('/ns:Invoice/cbc:ProfileID', 'S1');
+
+        static::$document->setContextParameterProfileID('B1');
+
+        $this->assertXPathValue('/ns:Invoice/cbc:CustomizationID', self::CUSTOMIZATION_ID);
+        $this->assertXPathValue('/ns:Invoice/cbc:ProfileID', 'B1');
+
+        static::$document->setContextParameterProfileID('');
+
+        $this->assertXPathValue('/ns:Invoice/cbc:CustomizationID', self::CUSTOMIZATION_ID);
+        $this->assertXPathNotExists('/ns:Invoice/cbc:ProfileID');
+    }
 }

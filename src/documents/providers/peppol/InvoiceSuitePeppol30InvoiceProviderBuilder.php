@@ -79,7 +79,42 @@ class InvoiceSuitePeppol30InvoiceProviderBuilder extends InvoiceSuiteAbstractDoc
     ): static {
         $this->traceMethodEnter(__METHOD__);
 
+        $this->setContextParameterCustomizationID($newCustomizationId);
+        $this->setContextParameterProfileID($newProfileId);
+
+        $this->traceMethodExit(__METHOD__);
+
+        return $this;
+    }
+
+    /**
+     * Set the Customization ID
+     *
+     * @param  string $newCustomizationId
+     * @return static
+     */
+    public function setContextParameterCustomizationID(
+        string $newCustomizationId
+    ): static {
+        $this->traceMethodEnter(__METHOD__);
+
         $this->getUblRootObject()->getCustomizationIDWithCreate()->setValue($newCustomizationId);
+
+        $this->traceMethodExit(__METHOD__);
+
+        return $this;
+    }
+
+    /**
+     * Set the Profile ID
+     *
+     * @param  string $newProfileId
+     * @return static
+     */
+    public function setContextParameterProfileID(
+        string $newProfileId
+    ): static {
+        $this->traceMethodEnter(__METHOD__);
 
         $this->getUblRootObject()->unsetProfileID();
 

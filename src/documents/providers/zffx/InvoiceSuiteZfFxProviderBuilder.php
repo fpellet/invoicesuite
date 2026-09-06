@@ -94,6 +94,25 @@ class InvoiceSuiteZfFxProviderBuilder extends InvoiceSuiteAbstractDocumentFormat
     ): static {
         $this->traceMethodEnter(__METHOD__);
 
+        $this->setContextParameterID($newContextParameter);
+        $this->setContextParameterProfileID($newBusinessProcessContextParameter);
+
+        $this->traceMethodExit(__METHOD__);
+
+        return $this;
+    }
+
+    /**
+     * Set the Customization ID
+     *
+     * @param  string $newContextParameter
+     * @return static
+     */
+    public function setContextParameterID(
+        string $newContextParameter
+    ): static {
+        $this->traceMethodEnter(__METHOD__);
+
         if (!InvoiceSuiteStringUtils::stringIsNullOrEmpty($newContextParameter)) {
             $this
                 ->getCrossIndustryRootObject()
@@ -102,6 +121,22 @@ class InvoiceSuiteZfFxProviderBuilder extends InvoiceSuiteAbstractDocumentFormat
                 ->getIDWithCreate()
                 ->setValue($newContextParameter);
         }
+
+        $this->traceMethodExit(__METHOD__);
+
+        return $this;
+    }
+
+    /**
+     * Set the Profile ID
+     *
+     * @param  string $newBusinessProcessContextParameter
+     * @return static
+     */
+    public function setContextParameterProfileID(
+        string $newBusinessProcessContextParameter
+    ): static {
+        $this->traceMethodEnter(__METHOD__);
 
         if (!InvoiceSuiteStringUtils::stringIsNullOrEmpty($newBusinessProcessContextParameter)) {
             $this
