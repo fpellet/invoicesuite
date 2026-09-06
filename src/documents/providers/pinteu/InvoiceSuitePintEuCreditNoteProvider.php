@@ -40,6 +40,7 @@ class InvoiceSuitePintEuCreditNoteProvider extends InvoiceSuitePeppol30CreditNot
             'CustomizationId' => 'urn:peppol:pint:billing-1@eu-1',
             'ProfileId' => 'urn:peppol:bis:billing',
             'AllowInvoiceDocumentReferenceDocumentType' => false,
+            'AllowBuyerOrderReferenceIssueDate' => false,
             'AllowedDocumentTypes' => ['81', '83', '381', '396', '532'],
         ];
     }

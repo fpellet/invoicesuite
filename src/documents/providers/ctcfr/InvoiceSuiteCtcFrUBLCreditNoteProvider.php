@@ -49,6 +49,15 @@ class InvoiceSuiteCtcFrUBLCreditNoteProvider extends InvoiceSuitePeppol30CreditN
             //     $documentBuilder->setContextParameter($customizationId, 'B1');
             'ProfileId' => '',
             'AllowInvoiceDocumentReferenceDocumentType' => false,
+
+            // EXT-FR-FE-197 "Date de la reference du bon de commande", the date belonging to the
+            // purchase order reference BT-13. AFNOR XP Z12-012 gives it cardinality 0..1 for
+            // EXTENDED FR only: neither EN 16931 nor CIUS FR define it, which is why every other
+            // UBL provider leaves this parameter at false. It maps to
+            // cac:OrderReference/cbc:IssueDate in UBL and to
+            // ram:BuyerOrderReferencedDocument/ram:FormattedIssueDateTime in CII, which the
+            // EXTENDED-based CII provider already writes as BT-X-147
+            'AllowBuyerOrderReferenceIssueDate' => true,
         ];
     }
 
